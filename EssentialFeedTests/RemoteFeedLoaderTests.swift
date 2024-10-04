@@ -22,7 +22,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
         let (sut, client) = makeSUT(url: url)
         
         // Act: WHEN sut.load() is invoked.
-        sut.load()
+        sut.load{ _ in }
         
         // Assert: THEN assert that a URL request was initiated in the client.
         XCTAssertEqual(client.requestedURLs, [url])
@@ -34,8 +34,8 @@ final class RemoteFeedLoaderTests: XCTestCase {
         let (sut, client) = makeSUT(url: url)
         
         // Act: WHEN sut.load() is invoked.
-        sut.load()
-        sut.load()
+        sut.load{ _ in }
+        sut.load{ _ in }
         
         // Assert: THEN assert that a URL request was initiated in the client.
         
