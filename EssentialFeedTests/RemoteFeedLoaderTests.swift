@@ -62,13 +62,15 @@ final class RemoteFeedLoaderTests: XCTestCase {
         let (sut, client) = makeSUT()
         
         // Act: WHEN we tell the sut to load; and WHEN we
-        var capturedErrors = [RemoteFeedLoader.Error]()
-        sut.load { capturedErrors.append($0) }
-        
-        client.complete(withStatusCode: 400)
-        
-        // Assert: THEN we expect the captured load error to be a connectivity error.
-        XCTAssertEqual(capturedErrors, [.invalidData])
+        let samples = [199, 201, 300, 400, 500]
+        samples.enumerated().forEach { index, code in
+            var capturedErrors = [RemoteFeedLoader.Error]()
+            sut.load { capturedErrors.append($0) }
+            client.complete(withStatusCode: code, at: index)
+            
+            // Assert: THEN we expect the captured load error to be a connectivity error.
+            XCTAssertEqual(capturedErrors, [.invalidData])
+        }
     }
     
     // MARK: - Helpers
