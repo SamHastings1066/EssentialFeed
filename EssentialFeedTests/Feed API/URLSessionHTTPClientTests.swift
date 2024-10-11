@@ -18,9 +18,11 @@ class URLSessionHTTPClient {
     struct UnexectedValuesRepresentation: Error {}
     
     func get(from url: URL, completion: @escaping (HTTPClientResult) -> Void) {
-        session.dataTask(with: url) { _, _, error in
+        session.dataTask(with: url) { data, response, error in
             if let error {
                 completion(.failure(error))
+            } else if let data = data, data.count > 0, let response = response as? HTTPURLResponse {
+                completion(.success(data, response))
             } else {
                 completion(.failure(UnexectedValuesRepresentation()))
             }
@@ -75,6 +77,27 @@ class URLSessionHTTPClientTests: XCTestCase {
         XCTAssertNotNil(resultErrorFor(data: anyData(), response: nonHTTPURLRepsonse(), error: anyNSError()))
         XCTAssertNotNil(resultErrorFor(data: anyData(), response: anyHTTPURLRepsonse(), error: anyNSError()))
         XCTAssertNotNil(resultErrorFor(data: anyData(), response: nonHTTPURLRepsonse(), error: nil))
+    }
+    
+    func test_getFromURL_succeedsOnHTTPURLResponseWithData() {
+        let data = anyData()
+        let response = anyHTTPURLRepsonse()
+        URLProtocolStub.stub(data: data, response: response, error: nil)
+        
+        let exp = expectation(description: "Wait for completion")
+        makeSUT().get(from: anyURL()) { result in
+            switch result {
+            case let .success( receivedData, receviedResponse):
+                XCTAssertEqual(receivedData, data)
+                XCTAssertEqual(receviedResponse.url, response.url)
+                XCTAssertEqual(receviedResponse.statusCode, response.statusCode)
+            default:
+                XCTFail("Expected success, get \(result) instead")
+            }
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 1.0)
     }
     
     // MARK: - Helpers
