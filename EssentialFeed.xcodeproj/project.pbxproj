@@ -34,6 +34,7 @@
 		8456FC512CB9A29700505348 /* EssentialFeed.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = EssentialFeed.xctestplan; sourceTree = "<group>"; };
 		84E6BC582CBD654E003EE49D /* EssentialFeedAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialFeedAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E6BC822CBD8499003EE49D /* CI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CI.xctestplan; sourceTree = "<group>"; };
+		84E6BCA02CBD8FAC003EE49D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -107,6 +108,7 @@
 		8456F8142CADA27200505348 = {
 			isa = PBXGroup;
 			children = (
+				84E6BCA02CBD8FAC003EE49D /* README.md */,
 				84E6BC822CBD8499003EE49D /* CI.xctestplan */,
 				8456FC512CB9A29700505348 /* EssentialFeed.xctestplan */,
 				8456F8202CADA27200505348 /* EssentialFeed */,
