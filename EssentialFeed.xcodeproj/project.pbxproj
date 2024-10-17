@@ -48,7 +48,7 @@
 		84E6BC632CBD71EA003EE49D /* Exceptions for "EssentialFeedTests" folder in "EssentialFeedAPIEndToEndTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"Feed API/Helpers/XCTestCase-MemoryLeakTracking.swift",
+				"Helpers/XCTestCase-MemoryLeakTracking.swift",
 			);
 			target = 84E6BC572CBD654E003EE49D /* EssentialFeedAPIEndToEndTests */;
 		};
