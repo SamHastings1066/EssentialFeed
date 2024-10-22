@@ -12,9 +12,16 @@ final class LoadFeedFromCacheUseCaseTests: XCTestCase {
 
     func test_init_doesNotMessageStoreUponCreation() {
         let (store, _) = makeSUT()
+        
         XCTAssertEqual(store.receivedMessages,[])
     }
     
+    func test_load_requestsCacheRetrieval() {
+        let (store, sut) = makeSUT()
+        
+        sut.load()
+        XCTAssertEqual(store.receivedMessages,[.retrieve])
+    }
     
     
     // MARK: - Helpers
