@@ -67,7 +67,7 @@ extension LocalFeedLoader: FeedLoader {
         store.retrieve { [weak self] result in
             guard let self else { return }
             switch result {
-            case let .failure(error):
+            case let .failure(error):   
                 completion(.failure(error))
             case let .found(feed, timestamp) where self.cachePolicy.validate(timestamp):
                 completion(.success(feed.toModels()))
