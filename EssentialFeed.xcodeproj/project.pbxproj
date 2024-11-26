@@ -58,7 +58,7 @@
 		8482ECF82CF6892400153619 /* Exceptions for "EssentialFeedTests" folder in "EssentialFeedCacheIntegrationTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"Helpers/XCTestCase-MemoryLeakTracking.swift",
+				"Helpers/XCTestCase+MemoryLeakTracking.swift",
 			);
 			target = 8482ECEB2CF6853700153619 /* EssentialFeedCacheIntegrationTests */;
 		};
@@ -66,7 +66,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Helpers/SharedTestHelpers.swift,
-				"Helpers/XCTestCase-MemoryLeakTracking.swift",
+				"Helpers/XCTestCase+MemoryLeakTracking.swift",
 			);
 			target = 84E6BC572CBD654E003EE49D /* EssentialFeedAPIEndToEndTests */;
 		};
