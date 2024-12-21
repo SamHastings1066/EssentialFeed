@@ -126,7 +126,7 @@ final class LoadFeedFromRemoteUserCaseTests: XCTestCase {
     // MARK: - Helpers
     
     private func failure(_ error: RemoteFeedLoader.Error) -> RemoteFeedLoader.Result {
-        return LoadFeedResult.failure(error)
+        return FeedLoader.Result.failure(error)
     }
     
     private func makeSUT(url: URL = URL(string: "https://a-url.com")!, file: StaticString = #filePath,
