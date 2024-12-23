@@ -26,7 +26,7 @@
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="580" id="ZEV-r4-js8">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="580" id="ZEV-r4-js8" customClass="FeedImageCell" customModule="Prototype" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="66" width="393" height="580"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZEV-r4-js8" id="KfB-FM-dGp">
@@ -43,7 +43,7 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="10" height="61"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mappin" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="sQ0-ed-X5c">
-                                                                    <rect key="frame" x="0.0" y="3.333333333333333" width="16.333333333333332" height="13.333333333333321"/>
+                                                                    <rect key="frame" x="0.0" y="3.333333333333333" width="16.333333333333332" height="13.333333333333336"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="14" id="DPS-Ii-mW8"/>
                                                                     </constraints>
@@ -106,6 +106,12 @@
                                         <constraint firstItem="Mbw-kZ-OXH" firstAttribute="top" secondItem="KfB-FM-dGp" secondAttribute="topMargin" constant="6" id="igd-Ln-39b"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="descriptionLabel" destination="NgA-VA-GuI" id="g6z-NA-LiX"/>
+                                    <outlet property="feedImageView" destination="lE2-uF-FRi" id="cAp-rX-d0E"/>
+                                    <outlet property="locationContainer" destination="eHd-ch-4dW" id="DrH-Dy-G9g"/>
+                                    <outlet property="locationLabel" destination="al6-qa-IcF" id="UCn-7m-uI3"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
