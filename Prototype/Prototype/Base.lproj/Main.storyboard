@@ -7,17 +7,27 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Table View Controller-->
+        <!--My Feed-->
         <scene sceneID="dVO-wa-0AW">
             <objects>
-                <tableViewController id="ue5-WX-eVc" sceneMemberID="viewController">
+                <tableViewController id="ue5-WX-eVc" customClass="FeedViewController" customModule="Prototype" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="wkm-dz-1rp">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="cgg-0D-IjN">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="g1E-wb-fNT">
+                            <rect key="frame" x="0.0" y="674" width="393" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="580" id="ZEV-r4-js8">
-                                <rect key="frame" x="0.0" y="50" width="393" height="580"/>
+                                <rect key="frame" x="0.0" y="66" width="393" height="580"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZEV-r4-js8" id="KfB-FM-dGp">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="580"/>
@@ -27,13 +37,13 @@
                                             <rect key="frame" x="20" y="17" width="353" height="546"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="eHd-ch-4dW" userLabel="Location Container">
-                                                    <rect key="frame" x="0.0" y="0.0" width="282.33333333333331" height="74.666666666666671"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="140.66666666666666" height="74.666666666666671"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XB2-k6-Ghz" userLabel="PinContainer">
-                                                            <rect key="frame" x="0.0" y="0.0" width="10" height="74.666666666666671"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="10" height="61"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mappin" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="sQ0-ed-X5c">
-                                                                    <rect key="frame" x="0.0" y="3.333333333333333" width="16.333333333333332" height="13.333333333333336"/>
+                                                                    <rect key="frame" x="0.0" y="3.333333333333333" width="16.333333333333332" height="13.333333333333321"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="14" id="DPS-Ii-mW8"/>
                                                                     </constraints>
@@ -46,8 +56,8 @@
                                                                 <constraint firstItem="sQ0-ed-X5c" firstAttribute="leading" secondItem="XB2-k6-Ghz" secondAttribute="leading" id="tfb-Em-ocj"/>
                                                             </constraints>
                                                         </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location, Location, Location, Location, Location, Location" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="al6-qa-IcF">
-                                                            <rect key="frame" x="15" y="0.0" width="267.33333333333331" height="36"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location, Location" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="al6-qa-IcF">
+                                                            <rect key="frame" x="15.000000000000007" y="0.0" width="125.66666666666669" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -103,7 +113,7 @@
                             <outlet property="delegate" destination="ue5-WX-eVc" id="wsh-8k-lEQ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="wTi-cT-xYq"/>
+                    <navigationItem key="navigationItem" title="My Feed" id="wTi-cT-xYq"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nbe-63-9QH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
