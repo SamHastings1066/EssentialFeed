@@ -9,14 +9,33 @@ import XCTest
 import UIKit
 import EssentialFeed
 
-final class FeedViewController: UIViewController {
+final class FeedViewController: UITableViewController {
     private var loader: FeedLoader?
+    //private var onViewIsAppearing: ((FeedViewController) -> Void)?
+    
     convenience init(loader: FeedLoader) {
         self.init()
         self.loader = loader
     }
     
     override func viewDidLoad() {
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
+//        onViewIsAppearing = { vc in
+//            vc.load()
+//            //
+//            vc.onViewIsAppearing = nil
+//        }
+        load()
+    }
+    
+//    override func viewIsAppearing(_ animated: Bool) {
+//        super.viewIsAppearing(animated)
+//        
+//        onViewIsAppearing?(self)
+//    }
+    
+    @objc private func load() {
         loader?.load { _ in }
     }
     
@@ -38,6 +57,19 @@ final class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 1)
     }
     
+    func test_pullToRefresh_loadsFeed() {
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        //sut.replaceRefreshControlWithFakeForiOS17Support()
+        
+        sut.refreshControl?.simulatePullToRefresh()
+        XCTAssertEqual(loader.loadCallCount, 2)
+        
+        sut.refreshControl?.simulatePullToRefresh()
+        XCTAssertEqual(loader.loadCallCount, 3)
+    }
+    
     // MARK: - Helpers
     
     func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedViewController, loader: LoaderSpy) {
@@ -54,5 +86,34 @@ final class FeedViewControllerTests: XCTestCase {
         }
         
         var loadCallCount = 0
+    }
+    
+    
+    
+}
+
+//private class FakeRefreshControl: UIRefreshControl {
+//    
+//}
+//
+//private extension FeedViewController {
+//    func replaceRefreshControlWithFakeForiOS17Support() {
+//        let fake = FakeRefreshControl()
+//        refreshControl?.allTargets.forEach { target in
+//            refreshControl?.actions(forTarget: target, forControlEvent: .valueChanged)?.forEach { action in
+//                fake.addTarget(target, action: Selector(action), for: .valueChanged)
+//            }
+//        }
+//        refreshControl = fake
+//    }
+//}
+
+private extension UIRefreshControl {
+    func simulatePullToRefresh() {
+        allTargets.forEach { target in
+            actions(forTarget: target, forControlEvent: .valueChanged)?.forEach {
+                (target as NSObject).perform(Selector($0))
+            }
+        }
     }
 }
