@@ -100,6 +100,13 @@
 			);
 			target = 8482ECEB2CF6853700153619 /* EssentialFeedCacheIntegrationTests */;
 		};
+		84BF9C602D397534009D9622 /* Exceptions for "EssentialFeedTests" folder in "EssentialFeediOSTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Helpers/XCTestCase+MemoryLeakTracking.swift",
+			);
+			target = 84BF9B892D357C8E009D9622 /* EssentialFeediOSTests */;
+		};
 		84E6BC632CBD71EA003EE49D /* Exceptions for "EssentialFeedTests" folder in "EssentialFeedAPIEndToEndTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -124,6 +131,7 @@
 			exceptions = (
 				84E6BC632CBD71EA003EE49D /* Exceptions for "EssentialFeedTests" folder in "EssentialFeedAPIEndToEndTests" target */,
 				8482ECF82CF6892400153619 /* Exceptions for "EssentialFeedTests" folder in "EssentialFeedCacheIntegrationTests" target */,
+				84BF9C602D397534009D9622 /* Exceptions for "EssentialFeedTests" folder in "EssentialFeediOSTests" target */,
 			);
 			path = EssentialFeedTests;
 			sourceTree = "<group>";
