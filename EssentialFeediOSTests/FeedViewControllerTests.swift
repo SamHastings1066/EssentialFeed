@@ -20,29 +20,36 @@ final class FeedViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("viewDidLoad")
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
         onViewIsAppearing = { vc in
             vc.refresh()
+            // this ensures that the refresh action is added to the refreshControl the first time viewIsAppearing is invoked
+            vc.refreshControl?.addTarget(vc, action: #selector(vc.refresh), for: .valueChanged)
 
+            // This ensures that the `onViewIsAppearing` closure is triggered only the first time viewIsAppearing is invoked
             vc.onViewIsAppearing = nil
         }
         load()
     }
     
     override func viewIsAppearing(_ animated: Bool) {
+        print("viewIsAppearing")
         super.viewIsAppearing(animated)
         
         onViewIsAppearing?(self)
     }
     
     @objc private func load() {
+        print("load")
         loader?.load { [weak self] _ in
             self?.refreshControl?.endRefreshing()
         }
     }
     
     @objc private func refresh() {
+        print("refresh")
         refreshControl?.beginRefreshing()
     }
     
@@ -66,7 +73,6 @@ final class FeedViewControllerTests: XCTestCase {
     
     func test_pullToRefresh_loadsFeed() {
         let (sut, loader) = makeSUT()
-        
         sut.loadViewIfNeeded()
         
         sut.refreshControl?.simulatePullToRefresh()
@@ -76,7 +82,15 @@ final class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 3)
     }
     
-    func test_viewDidLoad_showsLoadingIndicator() {
+    /*
+     The original name`test_viewDidLoad_showsLoadingIndicator` is no longer appropriate for this test.
+     viewDidLoad lifecycle function cannot call the UIRefreshCotrol isFreshing method any more since iOS17
+     Must call this method from viewIsAppearing. As such the `refresh` method that calls `isFreshing` is invoked in viewIsAppearing.
+     And viewIsAppearing is itself invoked by completing an appearance transition with the following VC methods:
+     - beginAppearanceTransition
+     - endAppearanceTransition
+     */
+    func test_viewIsAppearing_showsLoadingIndicatorOnlyTheFirstTimeItIsInvoked() {
         let (sut, _) = makeSUT()
         
         sut.loadViewIfNeeded()
@@ -87,23 +101,52 @@ final class FeedViewControllerTests: XCTestCase {
         sut.endAppearanceTransition()
         XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
         
-//        sut.refreshControl?.endRefreshing()
-//        sut.refreshControl?.sendActions(for: .valueChanged)
-//        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
-        
-//        sut.refreshControl?.endRefreshing()
-//        sut.beginAppearanceTransition(true, animated: false)
-//        sut.endAppearanceTransition()
-//        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
-        
+        sut.refreshControl?.endRefreshing()
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+        // Invoke `viewIsAppearing` a second time, this time it will not trigger a refresh
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
         
     }
     
-    func test_viewDidLoad_hidesLoiadingIndicatorOnLoadCompletion() {
+    func test_viewDidLoad_hidesLoadingIndicatorOnLoadCompletion() {
         let (sut, loader) = makeSUT()
         
-        sut.loadViewIfNeeded()
+        sut.loadViewIfNeeded() // triggers lifecycle function: `loadView` and `viewDidLoad`.
+        sut.replaceRefreshControlWithFakeForiOS17Support()
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+        
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
+        
         loader.completeFeedLoading()
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+    }
+    
+    func test_pullToRefresh_showsLoadingIndicator() {
+        let (sut, _) = makeSUT()
+        sut.replaceRefreshControlWithFakeForiOS17Support()
+        
+        // Need to trigger one invocation of `viewIsAppearing` in order to add the `refresh` action to the refreshControl
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
+        sut.refreshControl?.simulatePullToRefresh()
+        
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
+    }
+    
+    func test_pullToRefresh_hidesLoadingIndicatorOnCompletion() {
+        let (sut, loader) = makeSUT()
+        sut.replaceRefreshControlWithFakeForiOS17Support()
+        
+        // Need to trigger one invocation of `viewIsAppearing` in order to add the `refresh` action to the refreshControl
+        sut.beginAppearanceTransition(true, animated: false)
+        sut.endAppearanceTransition()
+        sut.refreshControl?.simulatePullToRefresh()
+        loader.completeFeedLoading()
+        
         XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
     }
     
@@ -143,10 +186,12 @@ private class FakeRefreshControl: UIRefreshControl {
     override var isRefreshing: Bool { _isRefreshing }
     
     override func beginRefreshing() {
+        print("beginRefreshing")
         _isRefreshing = true
     }
     
     override func endRefreshing() {
+        print("endRefreshing")
         _isRefreshing = false
     }
 }
