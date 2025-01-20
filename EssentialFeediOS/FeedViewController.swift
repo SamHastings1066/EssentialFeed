@@ -24,7 +24,7 @@ final public class FeedViewController: UITableViewController {
         refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
         onViewIsAppearing = { vc in
             vc.refresh()
-            // this ensures that the refresh action is added to the refreshControl the first time viewIsAppearing is invoked
+            // this ensures that the refresh action is added to the refreshControl the first time the closure is invoked
             vc.refreshControl?.addTarget(vc, action: #selector(vc.refresh), for: .valueChanged)
 
             // This ensures that the `onViewIsAppearing` closure is triggered only the first time viewIsAppearing is invoked
