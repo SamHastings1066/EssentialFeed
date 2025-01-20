@@ -19,7 +19,6 @@ final public class FeedViewController: UITableViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        print("viewDidLoad")
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
         onViewIsAppearing = { vc in
@@ -34,21 +33,18 @@ final public class FeedViewController: UITableViewController {
     }
     
     public override func viewIsAppearing(_ animated: Bool) {
-        print("viewIsAppearing")
         super.viewIsAppearing(animated)
         
         onViewIsAppearing?(self)
     }
     
     @objc private func load() {
-        print("load")
         loader?.load { [weak self] _ in
             self?.refreshControl?.endRefreshing()
         }
     }
     
     @objc private func refresh() {
-        print("refresh")
         refreshControl?.beginRefreshing()
     }
     
