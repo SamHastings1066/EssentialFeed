@@ -36,7 +36,7 @@ final class FeedViewControllerTests: XCTestCase {
      - endAppearanceTransition
      */
     
-    func loadingFeedIndicator_isVisibleWhileLoadingFeed() {
+    func test_loadingFeedIndicator_isVisibleWhileLoadingFeed() {
         let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded() // triggers lifecycle function: `loadView` and `viewDidLoad`.
