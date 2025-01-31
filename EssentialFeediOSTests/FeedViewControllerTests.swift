@@ -49,7 +49,7 @@ final class FeedViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once view is appearing.")
         
         loader.completeFeedLoading(at: 0)
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once feed loading is completed.")
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once feed loading copletes successfully.")
         
         // Invoke `viewIsAppearing` a second time, this time it will not trigger a refresh
         sut.beginAppearanceTransition(true, animated: false)
@@ -59,8 +59,8 @@ final class FeedViewControllerTests: XCTestCase {
         sut.simulateUserIniatedFeedReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiates a feed reload.")
     
-        loader.completeFeedLoading(at: 1)
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once the user initiated feed loading is completed.")
+        loader.completeFeedLoadingWithError(at: 1)
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once the user initiated feed loading completes with error.")
     }
     
     func test_loadFeedCompletion_rendersSuccessfullyLoadedFeed() {
