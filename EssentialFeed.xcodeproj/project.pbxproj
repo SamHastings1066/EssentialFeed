@@ -68,6 +68,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		84306BA62DCFAFE40027BC98 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		8456F81E2CADA27200505348 /* EssentialFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EssentialFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8456F8282CADA27200505348 /* EssentialFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8456FC512CB9A29700505348 /* EssentialFeed.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = EssentialFeed.xctestplan; sourceTree = "<group>"; };
@@ -212,6 +213,7 @@
 		8456F8142CADA27200505348 = {
 			isa = PBXGroup;
 			children = (
+				84306BA62DCFAFE40027BC98 /* .gitignore */,
 				84BF9B9A2D358230009D9622 /* CI_iOS.xctestplan */,
 				84BF9B992D357DD6009D9622 /* EssentialFeediOS.xctestplan */,
 				84BF9B7D2D343AD7009D9622 /* EssentialFeedAPIEndToEndTests.xctestplan */,
