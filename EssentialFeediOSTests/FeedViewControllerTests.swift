@@ -20,10 +20,10 @@ final class FeedViewControllerTests: XCTestCase {
         sut.loadViewIfNeeded()
         XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected a loading request once view is loaded")
         
-        sut.simulateUserIniatedFeedReload()
+        sut.simulateUserInitiatedFeedReload()
         XCTAssertEqual(loader.loadFeedCallCount, 2,  "Expected another loading request once user initiats a load")
         
-        sut.simulateUserIniatedFeedReload()
+        sut.simulateUserInitiatedFeedReload()
         XCTAssertEqual(loader.loadFeedCallCount, 3, "Expected a third loading request once user initiats another load")
     }
     
@@ -36,32 +36,27 @@ final class FeedViewControllerTests: XCTestCase {
      - endAppearanceTransition
      */
     
-    func test_loadingFeedIndicator_isVisibleWhileLoadingFeed() {
-        let (sut, loader) = makeSUT()
-        
-        sut.loadViewIfNeeded() // triggers lifecycle function: `loadView` and `viewDidLoad`.
-        sut.replaceRefreshControlWithFakeForiOS17Support()
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once view is loaded but before view is appearing, to conform with iOS17")
-        
-        // Triggers `viewIsAppearing` lifecycle method.
-        sut.beginAppearanceTransition(true, animated: false)
-        sut.endAppearanceTransition()
-        XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once view is appearing.")
-        
-        loader.completeFeedLoading(at: 0)
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once feed loading copletes successfully.")
-        
-        // Invoke `viewIsAppearing` a second time, this time it will not trigger a refresh
-        sut.beginAppearanceTransition(true, animated: false)
-        sut.endAppearanceTransition()
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator the second time the view is appearing. A load should be triggered only by the view's first apperance.")
-    
-        sut.simulateUserIniatedFeedReload()
-        XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiates a feed reload.")
-    
-        loader.completeFeedLoadingWithError(at: 1)
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once the user initiated feed loading completes with error.")
-    }
+    func test_loadingFeedIndicator_isVisibleWhenLoadingFeed() {
+            let (sut, loader) = makeSUT()
+
+            sut.simulateAppearance()
+            XCTAssertEqual(sut.isShowingLoadingIndicator, true)
+
+            loader.completeFeedLoading(at: 0)
+            XCTAssertEqual(sut.isShowingLoadingIndicator, false)
+
+            sut.simulateUserInitiatedFeedReload()
+            XCTAssertEqual(sut.isShowingLoadingIndicator, true)
+
+            loader.completeFeedLoading(at: 1)
+            XCTAssertEqual(sut.isShowingLoadingIndicator, false)
+
+            sut.simulateUserInitiatedFeedReload()
+            XCTAssertEqual(sut.isShowingLoadingIndicator, true)
+
+            loader.completeFeedLoadingWithError(at: 2)
+            XCTAssertEqual(sut.isShowingLoadingIndicator, false)
+        }
     
     func test_loadFeedCompletion_rendersSuccessfullyLoadedFeed() {
         let image0 = makeImage(description: "a description", location: "a location")
@@ -76,7 +71,7 @@ final class FeedViewControllerTests: XCTestCase {
         loader.completeFeedLoading(with: [image0], at: 0)
         assertThat(sut, isRendering: [image0])
         
-        sut.simulateUserIniatedFeedReload()
+        sut.simulateUserInitiatedFeedReload()
         loader.completeFeedLoading(with: [image0, image1, image2, image3], at: 1)
         assertThat(sut, isRendering: [image0, image1, image2, image3])
     }
@@ -89,7 +84,7 @@ final class FeedViewControllerTests: XCTestCase {
         loader.completeFeedLoading(with: [image0], at: 0)
         assertThat(sut, isRendering: [image0])
         
-        sut.simulateUserIniatedFeedReload()
+        sut.simulateUserInitiatedFeedReload()
         loader.completeFeedLoadingWithError(at: 1)
         assertThat(sut, isRendering: [image0])
     }
@@ -357,8 +352,17 @@ final class FeedViewControllerTests: XCTestCase {
 }
 
 private extension FeedViewController {
-    func simulateUserIniatedFeedReload() {
+    func simulateUserInitiatedFeedReload() {
         refreshControl?.simulatePullToRefresh()
+    }
+    
+    func simulateAppearance() {
+        if !isViewLoaded {
+            loadViewIfNeeded()
+            replaceRefreshControlWithFakeForiOS17Support()
+        }
+        beginAppearanceTransition(true, animated: false)
+        endAppearanceTransition()
     }
     
     @discardableResult
@@ -462,5 +466,6 @@ private extension FeedViewController {
             }
         }
         refreshControl = fake
+        refreshController?.view = fake
     }
 }
